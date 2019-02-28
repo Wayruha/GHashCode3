@@ -57,6 +57,8 @@ public class Main {
         printPhotosByTag(photosByTagMap);
         printInterestConnections(interestMap);
 
+
+
     }
 
     private static Map<Photo, Map<Photo, Integer>> prepareRelatedPhotosInterestMap(Integer numberOfPhotos, List<Photo> photos) {
@@ -65,7 +67,7 @@ public class Main {
             Photo currentPhoto = photos.get(i);
             for (int j = i + 1; j < numberOfPhotos; j++) {
                 Photo nextPhoto = photos.get(j);
-                Integer interest = calculateInterest(currentPhoto, nextPhoto);
+                Integer interest = InterestUtil.calculateInterest(currentPhoto, nextPhoto);
                 if (interest > 0) {
                     Map<Photo, Integer> interestSub = interestMap.getOrDefault(currentPhoto, new HashMap<>());
                     interestSub.put(nextPhoto, interest);
@@ -99,7 +101,4 @@ public class Main {
         }
     }
 
-    private static Integer calculateInterest(Photo currentPhoto, Photo nextPhoto) {
-        return 1;
-    }
 }
