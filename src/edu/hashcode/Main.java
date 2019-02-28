@@ -66,7 +66,7 @@ public class Main {
             wholeList.addAll(slidesForTag);
         }
         int totalInterest = calculateTotalInterest(wholeList);
-        System.out.println(totalInterest);
+        System.out.println("Total interest: " + totalInterest);
 //        printPopularityList(tagListByPopularity);
 //        printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
