@@ -9,15 +9,15 @@ import java.nio.file.Paths;
 public class FileUtil {
 
     private static final String lineBreak = "\n";
-    private static final String resultFilePath = "/Users/roman/Desktop/a_example.out";
+    public static final String sourceFilePath = "/Users/andrey.komarov/work/ghash/data/a_example.txt";
+    public static final String resultFilePath = "/Users/andrey.komarov/work/ghash/data/a_example.out";
 
     static String[] read(String path) throws IOException {
         return new String(Files.readAllBytes(Paths.get(path))).split(lineBreak);
     }
 
-    public Object readObj(String path) throws IOException {
-        read(path);
-        return new Object();
+    public String[] readObj() throws IOException {
+        return read(sourceFilePath);
     }
 
     static void writeResult(String content, String path) throws IOException {
