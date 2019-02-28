@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static edu.hashcode.InterestUtil.calculateTotalInterest;
+
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -56,9 +58,17 @@ public class Main {
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
 
         List<Slide> slides = GroupUtil.groupInsideTag(null, null, tagListByPopularity.get(0), stringListMap, interestMap);
-        FileUtil.writeResult(slides, FileUtil.resultFilePath);
+//        FileUtil.writeResult(slides, FileUtil.resultFilePath);
+
+        List<Slide> wholeList = new ArrayList<>();
+        for (String tag : tagListByPopularity) {
+            List<Slide> slidesForTag = stringListMap.get(tag);
+            wholeList.addAll(slidesForTag);
+        }
+        int totalInterest = calculateTotalInterest(wholeList);
+        System.out.println(totalInterest);
 //        printPopularityList(tagListByPopularity);
-        printPhotosByTag(tagListByPopularity, photosByTagMap);
+//        printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
 
 

@@ -1,6 +1,7 @@
 package edu.hashcode;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // InterestUtil.calculateInterest(photos.get(0), photos.get(3));
@@ -28,6 +29,21 @@ public class InterestUtil {
         int interest = Integer.min(Integer.min(common, photo1Only), photo2Only);
 //        System.out.println("-> interest=" + interest);
 
+        return interest;
+    }
+
+    public static int calculateTotalInterest(List<Slide> slides) {
+        int interest = 0;
+        while (slides.size() > 1) {
+            Slide current = slides.remove(0);
+            Slide next = slides.get(0);
+
+            int currentInterest = calculateInterest(current.getRight(), next.getLeft());
+            if (currentInterest == 0) {
+                System.out.println("WARNING. Interest is 0: " + current.getRight() + " " +  next.getLeft());
+            }
+            interest += currentInterest;
+        }
         return interest;
     }
 }
