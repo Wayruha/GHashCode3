@@ -147,6 +147,9 @@ public class Main {
                 Slide slide = new Slide(horizontalPhoto);
                 slides.add(slide);
             }
+            if (slides.isEmpty()) {
+                slideByTagMap.remove(tag);
+            }
             photosByTagMap.put(tag, verticalPhotos);
         }
         return slideByTagMap;
