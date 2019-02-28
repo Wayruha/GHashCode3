@@ -107,13 +107,11 @@ public class Main {
 
             List<Slide> slides = new ArrayList<>();
             slideByTagMap.put(tag, slides);
-            for (int i = 0; i < verticalPhotos.size(); i += 2) {
-                if (i + 1 != verticalPhotos.size()) {
-                    Photo left = verticalPhotos.remove(i); //todo find best match
-                    Photo right = verticalPhotos.remove(i + 1);
-                    Slide slide = new Slide(left, right);
-                    slides.add(slide);
-                }
+            while (verticalPhotos.size() > 1) {
+                Photo left = verticalPhotos.remove(0); //todo find best match
+                Photo right = verticalPhotos.remove(0);
+                Slide slide = new Slide(left, right);
+                slides.add(slide);
             }
 
             for (Photo horizontalPhoto : horizontalPhotos) {
