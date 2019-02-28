@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Map<String, Integer> priorityMap = new HashMap<>();
+        Map<String, Integer> popularityMap = new HashMap<>();
         Map<String, List<Photo>> photosByTagMap = new HashMap<>();
 
         FileUtil fu = new FileUtil();
@@ -34,8 +34,8 @@ public class Main {
             for (int j = 0; j < tagsQty; j++) {
                 String tag = string[j + 2];
                 tags.add(tag);
-                Integer priority = priorityMap.getOrDefault(tag, 0);
-                priorityMap.put(tag, ++priority);
+                Integer priority = popularityMap.getOrDefault(tag, 0);
+                popularityMap.put(tag, ++priority);
 
                 List<Photo> list = photosByTagMap.getOrDefault(tag, new ArrayList<>());
                 list.add(ph);
@@ -46,13 +46,13 @@ public class Main {
             photos.add(ph);
         }
 
-        List<String> tagListByPriority = priorityMap.entrySet().stream()
+        List<String> tagListByPopularity = popularityMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        for (String tag : tagListByPriority) {
-//            System.out.println(String.format("Photo %s has value %d", k, priorityMap.get(k)));
+        for (String tag : tagListByPopularity) {
+//            System.out.println(String.format("Photo %s has value %d", k, popularityMap.get(k)));
             System.out.println(String.format(tag));
         }
 
