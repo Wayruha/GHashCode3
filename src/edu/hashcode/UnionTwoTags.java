@@ -1,49 +1,79 @@
 package edu.hashcode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class UnionTwoTags {
 
+    Map<String, List<Slide>> stringListMap;
+    Map<String, List<Photo>> leftAloneVerticalPhotosMap;
 
-    public Slide unionPlease(List<Photo> left, List<Photo> right, String leftTag, String rightTag) throws Exception {
-        //find vertical photo to combine
-        int leftVerticalCount = 0;
-        int rightVerticalCount = 0;
-        for (Photo phL : left) {
-            if (!phL.horizontal) leftVerticalCount++;
-        }
-        for (Photo phR : left) {
-            if (!phR.horizontal) leftVerticalCount++;
-        }
+    public UnionTwoTags(Map<String, List<Slide>> stringListMap, Map<String, List<Photo>> leftAloneVerticalPhotosMap) {
+        this.stringListMap = stringListMap;
+        this.leftAloneVerticalPhotosMap = leftAloneVerticalPhotosMap;
+    }
 
-        if (leftVerticalCount % 2 == 1 && rightVerticalCount % 2 == 1) {
-            //TODO WHICH ONEs???
-            //new Slide()
-            return null;
-        } else {
-            //Need to find intersection photo.
-            return new Slide(findJoinCandidate(left, leftTag, rightTag));
+    public List<String> groupTags(List<String> tagsByPopularity) {
+
+        int index = 0;
+        tryToUnion(tagsByPopularity.get(index), tagsByPopularity.get(index + 1));
+
+        for (int i = 0; i < tagsByPopularity.size() - 1; i++) {
+            for (int j = i + 1; j < tagsByPopularity.size(); j++) {
+                if (tryToUnion(tagsByPopularity.get(i), tagsByPopularity.get(j))) {
+                    Collections.swap(tagsByPopularity, i + 1, j);
+                    break;
+                }
+            }
+        }
+        return tagsByPopularity;
+    }
+
+    public boolean tryToUnion(String tagL, String tagR) {
+
+        try {
+            return unionPlease(tagL, tagR) != null;
+        } catch (CantUnionException ex) {
+            ex.printStackTrace();
+            return false;
         }
     }
 
-    private Photo findJoinCandidate(List<Photo> left, String leftTag, String rightTag) throws Exception {
-        List<Photo> joinCandidates = new ArrayList<>();
-        for (Photo lPh : left) {
+
+    public Slide unionPlease(String tagLeft, String tagRight) throws CantUnionException {
+        final List<Slide> left = stringListMap.get(tagLeft);
+        final List<Slide> right = stringListMap.get(tagRight);
+        //find vertical photo to combine
+
+        final List<Photo> leftAlonePhotos = leftAloneVerticalPhotosMap.get(tagLeft);
+        final List<Photo> rightAlonePhotos = leftAloneVerticalPhotosMap.get(tagRight);
+        if (!leftAlonePhotos.isEmpty() && !rightAlonePhotos.isEmpty()) {
+            return new Slide(leftAlonePhotos.get(0), rightAlonePhotos.get(0));
+        } else {
+            //Need to find intersection photo.
+            return findJoinCandidate(left, tagLeft, tagRight);
+        }
+    }
+
+    private Slide findJoinCandidate(List<Slide> left, String leftTag, String rightTag) throws CantUnionException {
+        List<Slide> joinCandidates = new ArrayList<>();
+        for (Slide lPh : left) {
             if (lPh.getTags().contains(rightTag)) {
                 joinCandidates.add(lPh);
             }
         }
         if (joinCandidates.isEmpty()) {
             System.out.println("No intersection btw " + leftTag + " and " + rightTag);
-            throw new Exception("No intersection!");
+            throw new CantUnionException("No intersection!");
         }
 
-        Photo bestCandidate = joinCandidates.get(0);
-        int candidateTagCount = bestCandidate.tags.size();
-        for (Photo ph : joinCandidates) {
-            if (ph.tags.size() < candidateTagCount) {
-                candidateTagCount = ph.tags.size();
+        Slide bestCandidate = joinCandidates.get(0);
+        int candidateTagCount = bestCandidate.getTags().size();
+        for (Slide ph : joinCandidates) {
+            if (ph.getTags().size() < candidateTagCount) {
+                candidateTagCount = ph.getTags().size();
                 bestCandidate = ph;
             }
         }

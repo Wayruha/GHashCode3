@@ -1,20 +1,12 @@
 package edu.hashcode;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static edu.hashcode.InterestUtil.calculateTotalInterest;
-
 public class Main {
-
-    public static void main(String[] args) throws IOException {
+    //ideally CantUnion is impossible
+    public static void main(String[] args) throws IOException, CantUnionException {
         Map<String, Integer> popularityMap = new HashMap<>();
         Map<String, List<Photo>> photosByTagMap = new HashMap<>();
 
@@ -57,16 +49,34 @@ public class Main {
 
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
 
-        List<Slide> slides = GroupUtil.groupInsideTag(null, null, tagListByPopularity.get(0), stringListMap, interestMap);
-//        FileUtil.writeResult(slides, FileUtil.resultFilePath);
+        UnionTwoTags unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
+        List<Slide> slideShow = new ArrayList<>();
+        ///combine!
+        tagListByPopularity = unionUtil.groupTags(tagListByPopularity);
+        for (int i = 0; i < tagListByPopularity.size(); i++) {
+            String previousTag = "";
+            Slide leftJoinSlide = null;
 
-        List<Slide> wholeList = new ArrayList<>();
-        for (String tag : tagListByPopularity) {
-            List<Slide> slidesForTag = stringListMap.get(tag);
-            wholeList.addAll(slidesForTag);
+            String currentTag = tagListByPopularity.get(i);
+            if (i > 0) {
+                previousTag = tagListByPopularity.get(i - 1);
+                leftJoinSlide = unionUtil.unionPlease(previousTag, currentTag);
+            }
+
+            String nextTag = "";
+            Slide rightJoinSlide = null;
+
+            if (i < tagListByPopularity.size() - 1) {
+                nextTag = tagListByPopularity.get(i + 1);
+                rightJoinSlide = unionUtil.unionPlease(currentTag, nextTag);
+            }
+
+            List<Slide> slides = GroupUtil.groupInsideTag(leftJoinSlide, rightJoinSlide, tagListByPopularity.get(0), stringListMap, interestMap);
+            slideShow.addAll(slides);
         }
-        int totalInterest = calculateTotalInterest(wholeList);
-        System.out.println("Total interest: " + totalInterest);
+
+
+        FileUtil.writeResult(slideShow, FileUtil.resultFilePath);
 //        printPopularityList(tagListByPopularity);
 //        printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
