@@ -51,6 +51,15 @@ public class Main {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
+        Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
+
+        printPopularityList(tagListByPopularity);
+        printPhotosByTag(photosByTagMap);
+        printInterestConnections(interestMap);
+
+    }
+
+    private static Map<Photo, Map<Photo, Integer>> prepareRelatedPhotosInterestMap(Integer numberOfPhotos, List<Photo> photos) {
         Map<Photo, Map<Photo, Integer>> interestMap = new HashMap<>();
         for (int i = 0; i < numberOfPhotos; i++) {
             Photo currentPhoto = photos.get(i);
@@ -64,11 +73,7 @@ public class Main {
                 }
             }
         }
-
-        printPopularityList(tagListByPopularity);
-        printPhotosByTag(photosByTagMap);
-        printInterestConnections(interestMap);
-
+        return interestMap;
     }
 
     private static void printInterestConnections(Map<Photo, Map<Photo, Integer>> interestMap) {
