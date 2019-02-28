@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static edu.hashcode.InterestUtil.calculateTotalInterest;
-
 public class Main {
     //ideally CantUnion is impossible
     public static void main(String[] args) throws IOException, CantUnionException {
@@ -52,7 +50,7 @@ public class Main {
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
 
         UnionTwoTags unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
-        List<Slide> slideShow = new ArrayList<>();
+        Set<Slide> slideShow = new HashSet<>();
         ///combine!
         tagListByPopularity = unionUtil.groupTags(tagListByPopularity);
         for (int i = 0; i < tagListByPopularity.size(); i++) {
@@ -82,7 +80,7 @@ public class Main {
 //        int totalInterest = calculateTotalInterest(wholeList);
 //        System.out.println("Total interest: " + totalInterest);
 
-        FileUtil.writeResult(slideShow, FileUtil.resultFilePath);
+        FileUtil.writeResult(new ArrayList<>(slideShow), FileUtil.resultFilePath);
 //        printPopularityList(tagListByPopularity);
 //        printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
