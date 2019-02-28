@@ -2,6 +2,7 @@ package edu.hashcode;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Slide {
@@ -37,5 +38,19 @@ public class Slide {
     @Override
     public String toString() {
         return "{\"left\":" + (left == null ? "null" : "\"" + left + "\"") + (right == null ? "" : ", " + "\"right\":" + ("\"" + right + "\"") + ", ") + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Slide slide = (Slide) o;
+        return Objects.equals(left, slide.left) &&
+                Objects.equals(right, slide.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(left, right);
     }
 }

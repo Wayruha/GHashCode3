@@ -47,9 +47,13 @@ public class Main {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
+//        Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
 
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
+
+        List<Slide> collect = stringListMap.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+        HashSet<Slide> slides1 = new HashSet<>(collect);
+        System.out.println("slides count: " + slides1);
 
         UnionTwoTags unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
         List<Slide> slideShow = new ArrayList<>();
@@ -79,10 +83,10 @@ public class Main {
 
 //        List<Slide> slides = GroupUtil.groupInsideTag(null, null, tagListByPopularity.get(0), stringListMap);
 //        FileUtil.writeResult(slides, FileUtil.resultFilePath);
-//        int totalInterest = calculateTotalInterest(wholeList);
-//        System.out.println("Total interest: " + totalInterest);
+        int totalInterest = calculateTotalInterest(slideShow);
+        System.out.println("Total interest: " + totalInterest);
 
-        FileUtil.writeResult(slideShow, FileUtil.resultFilePath);
+//        FileUtil.writeResult(slideShow, FileUtil.resultFilePath);
 //        printPopularityList(tagListByPopularity);
 //        printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
@@ -131,8 +135,8 @@ public class Main {
         Map<String, List<Slide>> slideByTagMap = new HashMap<>();
         for (String tag : tagListByPopularity) {
             List<Photo> photosForThisTag = photosByTagMap.get(tag);
-            List<Photo> verticalPhotos = photosForThisTag.stream().filter(Photo::isHorizontal).collect(Collectors.toList());
-            List<Photo> horizontalPhotos = photosForThisTag.stream().filter(p -> !p.horizontal).collect(Collectors.toList());
+            List<Photo> verticalPhotos = photosForThisTag.stream().filter(p -> !p.horizontal).collect(Collectors.toList());
+            List<Photo> horizontalPhotos = photosForThisTag.stream().filter(Photo::isHorizontal).collect(Collectors.toList());
 
             List<Slide> slides = new ArrayList<>();
             slideByTagMap.put(tag, slides);
