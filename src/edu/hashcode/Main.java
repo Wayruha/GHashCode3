@@ -53,7 +53,7 @@ public class Main {
 
         Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
 
-        groupSlides(tagListByPopularity, photosByTagMap);
+        Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
 //        printPopularityList(tagListByPopularity);
         printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
