@@ -13,7 +13,6 @@ public class GroupUtil {
     public static List<Slide> groupInsideTag(Slide left, Slide right, String tag, Map<String, List<Slide>> slidesByTagMap, LinkedHashSet<Slide> slideShow) {
 
         List<Slide> slides = new ArrayList<>(slidesByTagMap.get(tag));
-        slides.removeAll(slideShow);
         List<Slide> result = new ArrayList<>();
         if (left != null) {
             slides.remove(left);

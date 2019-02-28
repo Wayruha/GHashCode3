@@ -60,6 +60,12 @@ public class Main {
             Slide leftJoinSlide = null;
 
             String currentTag = tagListByPopularity.get(i);
+            List<Slide> slidesForCurrentTag = stringListMap.get(currentTag);
+            slidesForCurrentTag.removeAll(slideShow);
+            if (slidesForCurrentTag.isEmpty()) {
+                stringListMap.remove(currentTag);
+                continue;
+            }
             if (i > 0) {
                 previousTag = tagListByPopularity.get(i - 1);
                 leftJoinSlide = unionUtil.unionPlease(previousTag, currentTag);
