@@ -2,6 +2,7 @@ package edu.hashcode;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Photo implements Comparable {
@@ -39,6 +40,19 @@ public class Photo implements Comparable {
 
     public void setTags(Set<String> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Photo photo = (Photo) o;
+        return id == photo.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
