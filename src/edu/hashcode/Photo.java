@@ -12,10 +12,9 @@ public class Photo implements Comparable {
     public Photo() {
     }
 
-    public Photo(int id, boolean horizontal, Set<String> tags) {
+    public Photo(int id, boolean horizontal) {
         this.id = id;
         this.horizontal = horizontal;
-        this.tags = tags;
     }
 
     public int getId() {
