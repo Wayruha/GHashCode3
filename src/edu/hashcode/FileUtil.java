@@ -9,7 +9,8 @@ import java.nio.file.Paths;
 public class FileUtil {
 
     private static final String lineBreak = "\n";
-    public static final String sourceFilePath = "/Users/andrey.komarov/work/ghash/data/a_example.txt";
+//    public static final String sourceFilePath = "/Users/andrey.komarov/work/ghash/data/a_example.txt";
+    public static final String sourceFilePath = "/Users/andrey.komarov/work/ghash/data/c_memorable_moments.txt";
     public static final String resultFilePath = "/Users/andrey.komarov/work/ghash/data/a_example.out";
 
     static String[] read(String path) throws IOException {

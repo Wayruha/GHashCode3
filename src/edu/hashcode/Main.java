@@ -42,7 +42,7 @@ public class Main {
                 photosByTagMap.put(tag, list);
             }
             ph.setTags(tags);
-            System.out.println(String.format("Added %s", ph.toString()));
+//            System.out.println(String.format("Added %s", ph.toString()));
             photos.add(ph);
         }
 
@@ -53,10 +53,9 @@ public class Main {
 
         Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
 
-        printPopularityList(tagListByPopularity);
-        printPhotosByTag(photosByTagMap);
-        printInterestConnections(interestMap);
-
+//        printPopularityList(tagListByPopularity);
+        printPhotosByTag(tagListByPopularity, photosByTagMap);
+//        printInterestConnections(interestMap);
 
 
     }
@@ -89,9 +88,12 @@ public class Main {
         }
     }
 
-    private static void printPhotosByTag(Map<String, List<Photo>> photosByTagMap) {
-        for (String tag : photosByTagMap.keySet()) {
-            System.out.println(String.format("Tag %s has photos: %s", tag, photosByTagMap.get(tag)));
+    private static void printPhotosByTag(List<String> tagListByPopularity, Map<String, List<Photo>> photosByTagMap) {
+        for (String tag : tagListByPopularity) {
+//            System.out.println(String.format("Tag %s has photos: %s", tag, photosByTagMap.get(tag)));
+            long horizontalCount = photosByTagMap.get(tag).stream().filter(Photo::isHorizontal).count();
+            System.out.println(String.format("Tag %s has %d horizontal and %d vertical photos", tag,
+                    horizontalCount, photosByTagMap.get(tag).size() - horizontalCount));
         }
     }
 
