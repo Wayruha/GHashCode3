@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static edu.hashcode.InterestUtil.calculateTotalInterest;
+
 public class Main {
     //ideally CantUnion is impossible
     public static void main(String[] args) throws IOException, CantUnionException {
@@ -77,7 +79,7 @@ public class Main {
 
 //        List<Slide> slides = GroupUtil.groupInsideTag(null, null, tagListByPopularity.get(0), stringListMap);
 //        FileUtil.writeResult(slides, FileUtil.resultFilePath);
-        int totalInterest = calculateTotalInterest(slideShow);
+        int totalInterest = calculateTotalInterest(new ArrayList<>(slideShow));
         System.out.println("Total interest: " + totalInterest);
 
 //        FileUtil.writeResult(slideShow, FileUtil.resultFilePath);
