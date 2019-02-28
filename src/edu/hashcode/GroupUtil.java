@@ -1,12 +1,15 @@
 package edu.hashcode;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GroupUtil {
 
-    public static List<Slide> groupInsideTag(Slide left, Slide right, String tag, Map<String, List<Slide>> slidesByTagMap, Map<Photo, Map<Photo, Integer>> interestMap) {
+    public static List<Slide> groupInsideTag(Slide left, Slide right, String tag, Map<String, List<Slide>> slidesByTagMap) {
 
         List<Slide> slides = new ArrayList<>(slidesByTagMap.get(tag));
         List<Slide> result = new ArrayList<>();
@@ -22,7 +25,7 @@ public class GroupUtil {
             Slide first = slides.remove(0);
             result.add(first);
 
-            Slide second = findBest(first, slides, interestMap);
+            Slide second = getBestSlide(first, slides);
             if (second != null) {
                 slides.remove(second);
                 result.add(second);
@@ -35,7 +38,20 @@ public class GroupUtil {
         return result;
     }
 
-    private static Slide findBest(Slide first, List<Slide> slides, Map<Photo, Map<Photo, Integer>> interestMap) {
-        return slides.isEmpty() ? null : slides.get(0);
+    private static Slide getBestSlide(Slide current, List<Slide> slides) {
+        Map<Slide, Integer> interestMap = new HashMap<>();
+        for (Slide slide : slides) {
+            Integer interest = InterestUtil.calculateInterest(current.getRight(), slide.getLeft());
+            if (interest > 0) {
+                interestMap.put(slide, interest);
+            }
+        }
+        List<Slide> collect = interestMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        return collect.isEmpty() ? null : collect.remove(0);
     }
+
+
 }
