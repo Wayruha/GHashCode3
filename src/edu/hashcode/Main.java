@@ -147,6 +147,7 @@ public class Main {
                 Slide slide = new Slide(horizontalPhoto);
                 slides.add(slide);
             }
+            photosByTagMap.put(tag, verticalPhotos);
         }
         return slideByTagMap;
     }
