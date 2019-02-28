@@ -65,14 +65,13 @@ public class Main {
             }
         }
 
-        for (String tag : tagListByPopularity) {
-            System.out.println(String.format(tag));
-        }
+        printPopularityList(tagListByPopularity);
+        printPhotosByTag(photosByTagMap);
+        printInterestConnections(interestMap);
 
-        for (String tag : photosByTagMap.keySet()) {
-            System.out.println(String.format("Tag %s has photos: %s", tag, photosByTagMap.get(tag)));
-        }
+    }
 
+    private static void printInterestConnections(Map<Photo, Map<Photo, Integer>> interestMap) {
         for (Photo photo : interestMap.keySet()) {
             System.out.println(String.format("photo %s has following friends:", photo));
 
@@ -81,7 +80,18 @@ public class Main {
                 System.out.println(String.format("\tinterest: %d, %s", relatedPhotoMap.get(relatedPhoto), relatedPhoto));
             }
         }
+    }
 
+    private static void printPhotosByTag(Map<String, List<Photo>> photosByTagMap) {
+        for (String tag : photosByTagMap.keySet()) {
+            System.out.println(String.format("Tag %s has photos: %s", tag, photosByTagMap.get(tag)));
+        }
+    }
+
+    private static void printPopularityList(List<String> tagListByPopularity) {
+        for (String tag : tagListByPopularity) {
+            System.out.println(String.format(tag));
+        }
     }
 
     private static Integer calculateInterest(Photo currentPhoto, Photo nextPhoto) {
