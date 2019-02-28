@@ -82,7 +82,7 @@ public class Main {
                 rightJoinSlide = unionUtil.unionPlease(currentTag, nextTag);
             }
 
-            List<Slide> slides = GroupUtil.groupInsideTag(leftJoinSlide, rightJoinSlide, tagListByPopularity.get(0), stringListMap, slideShow);
+            List<Slide> slides = GroupUtil.groupInsideTag(leftJoinSlide, rightJoinSlide, currentTag, stringListMap, slideShow);
             slideShow.addAll(slides);
         }
 
