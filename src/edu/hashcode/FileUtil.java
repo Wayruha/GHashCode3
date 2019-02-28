@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class FileUtil {
 
@@ -30,5 +31,28 @@ public class FileUtil {
 
     static void writeResult(String content) throws IOException {
         writeResult(content, resultFilePath);
+    }
+
+    static void writeResult(List<Slide> slides, String path) throws IOException {
+        if (slides.isEmpty()) {
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(slides.size());
+        sb.append("\n");
+        for (Slide slide : slides) {
+            if (slide.getLeft().equals(slide.getRight())) {
+                sb.append(slide.getLeft().id);
+                sb.append("\n");
+            } else {
+                sb.append(slide.getLeft().id);
+                sb.append(" ");
+                sb.append(slide.getRight().id);
+                sb.append("\n");
+            }
+        }
+
+        writeResult(sb.toString(), path);
     }
 }
