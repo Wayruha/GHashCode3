@@ -152,6 +152,7 @@ public class Main {
             }
             photosByTagMap.put(tag, verticalPhotos);
         }
+        tagListByPopularity.retainAll(slideByTagMap.keySet());
         return slideByTagMap;
     }
 
