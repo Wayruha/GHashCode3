@@ -64,6 +64,7 @@ public class Main {
             slidesForCurrentTag.removeAll(slideShow);
             if (slidesForCurrentTag.isEmpty()) {
                 stringListMap.remove(currentTag);
+                tagListByPopularity.remove(currentTag);
                 continue;
             }
             if (i > 0) {
