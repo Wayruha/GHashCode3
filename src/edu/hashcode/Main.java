@@ -52,7 +52,7 @@ public class Main {
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
 
         UnionTwoTags unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
-        Set<Slide> slideShow = new HashSet<>();
+        LinkedHashSet<Slide> slideShow = new LinkedHashSet<>();
         ///combine!
         tagListByPopularity = unionUtil.groupTags(tagListByPopularity);
         for (int i = 0; i < tagListByPopularity.size(); i++) {
@@ -73,7 +73,7 @@ public class Main {
                 rightJoinSlide = unionUtil.unionPlease(currentTag, nextTag);
             }
 
-            List<Slide> slides = GroupUtil.groupInsideTag(leftJoinSlide, rightJoinSlide, tagListByPopularity.get(0), stringListMap);
+            List<Slide> slides = GroupUtil.groupInsideTag(leftJoinSlide, rightJoinSlide, tagListByPopularity.get(0), stringListMap, slideShow);
             slideShow.addAll(slides);
         }
 

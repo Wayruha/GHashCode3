@@ -3,15 +3,17 @@ package edu.hashcode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GroupUtil {
 
-    public static List<Slide> groupInsideTag(Slide left, Slide right, String tag, Map<String, List<Slide>> slidesByTagMap) {
+    public static List<Slide> groupInsideTag(Slide left, Slide right, String tag, Map<String, List<Slide>> slidesByTagMap, LinkedHashSet<Slide> slideShow) {
 
         List<Slide> slides = new ArrayList<>(slidesByTagMap.get(tag));
+        slides.retainAll(slideShow);
         List<Slide> result = new ArrayList<>();
         if (left != null) {
             slides.remove(left);
