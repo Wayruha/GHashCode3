@@ -38,12 +38,27 @@ public class InterestUtil {
             Slide current = slides.remove(0);
             Slide next = slides.get(0);
 
-            int currentInterest = calculateInterest(current.getRight(), next.getLeft());
+            int currentInterest = calculateInterest(current, next);
             if (currentInterest == 0) {
                 System.out.println("WARNING. Interest is 0: " + current.getRight() + " " +  next.getLeft());
             }
             interest += currentInterest;
         }
         return interest;
+    }
+
+    public static int calculateInterest(Slide photo1, Slide photo2) {
+
+        Set<String> intersection = new HashSet<>(photo1.getTags());
+        Set<String> photo1Tags = photo1.getTags();
+        Set<String> photo2Tags = photo2.getTags();
+
+        intersection.retainAll(photo2Tags);
+
+        int common = intersection.size();
+        int photo1Only = photo1Tags.size() - common;
+        int photo2Only = photo2Tags.size() - common;
+
+        return Integer.min(Integer.min(common, photo1Only), photo2Only);
     }
 }
