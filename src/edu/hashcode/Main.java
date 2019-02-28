@@ -51,11 +51,13 @@ public class Main {
 
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
 
-        UnionTwoTags unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
+
         LinkedHashSet<Slide> slideShow = new LinkedHashSet<>();
         ///combine!
+        UnionTwoTags unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
         tagListByPopularity = unionUtil.groupTags(tagListByPopularity);
         for (int i = 0; i < tagListByPopularity.size(); i++) {
+            unionUtil = new UnionTwoTags(stringListMap, photosByTagMap);
             String previousTag = "";
             Slide leftJoinSlide = null;
 
@@ -86,10 +88,11 @@ public class Main {
 
 //        List<Slide> slides = GroupUtil.groupInsideTag(null, null, tagListByPopularity.get(0), stringListMap);
 //        FileUtil.writeResult(slides, FileUtil.resultFilePath);
-        int totalInterest = calculateTotalInterest(new ArrayList<>(slideShow));
+        final ArrayList<Slide> slides = new ArrayList<>(slideShow);
+        int totalInterest = calculateTotalInterest(slides);
         System.out.println("Total interest: " + totalInterest);
 
-//        FileUtil.writeResult(slideShow, FileUtil.resultFilePath);
+        FileUtil.writeResult(slides, FileUtil.resultFilePath);
 //        printPopularityList(tagListByPopularity);
 //        printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);

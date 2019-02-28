@@ -16,16 +16,13 @@ public class UnionTwoTags {
     }
 
     public List<String> groupTags(List<String> tagsByPopularity) {
-
-        int index = 0;
-        tryToUnion(tagsByPopularity.get(index), tagsByPopularity.get(index + 1));
-
         for (int i = 0; i < tagsByPopularity.size() - 1; i++) {
             for (int j = i + 1; j < tagsByPopularity.size(); j++) {
                 if (tryToUnion(tagsByPopularity.get(i), tagsByPopularity.get(j))) {
                     Collections.swap(tagsByPopularity, i + 1, j);
                     break;
                 }
+
             }
         }
         return tagsByPopularity;
@@ -53,15 +50,17 @@ public class UnionTwoTags {
             return new Slide(leftAlonePhotos.get(0), rightAlonePhotos.get(0));
         } else {
             //Need to find intersection photo.
-            return findJoinCandidate(left, tagLeft, tagRight);
+            return findJoinCandidate(left, right, tagLeft, tagRight);
         }
     }
 
-    private Slide findJoinCandidate(List<Slide> left, String leftTag, String rightTag) throws CantUnionException {
+    private Slide findJoinCandidate(List<Slide> left, List<Slide> right, String leftTag, String rightTag) throws CantUnionException {
         List<Slide> joinCandidates = new ArrayList<>();
         for (Slide lPh : left) {
-            if (lPh.getTags().contains(rightTag)) {
-                joinCandidates.add(lPh);
+            for (Slide rPh : right) {
+                if (!Collections.disjoint(lPh.getTags(), rPh.getTags())) {
+                    joinCandidates.add(lPh);
+                }
             }
         }
         if (joinCandidates.isEmpty()) {
