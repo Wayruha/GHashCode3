@@ -1,5 +1,6 @@
 package edu.hashcode;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,4 +34,8 @@ public class Slide {
         return right == null ? left : right;
     }
 
+    @Override
+    public String toString() {
+        return "{\"left\":" + (left == null ? "null" : "\"" + left + "\"") + (right == null ? "" : ", " + "\"right\":" + ("\"" + right + "\"") + ", ") + "}";
+    }
 }

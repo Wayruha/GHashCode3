@@ -53,6 +53,7 @@ public class Main {
 
         Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
 
+        groupSlides(tagListByPopularity, photosByTagMap);
 //        printPopularityList(tagListByPopularity);
         printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
@@ -95,6 +96,32 @@ public class Main {
             System.out.println(String.format("Tag %s has %d horizontal and %d vertical photos", tag,
                     horizontalCount, photosByTagMap.get(tag).size() - horizontalCount));
         }
+    }
+
+    private static Map<String, List<Slide>> groupSlides(List<String> tagListByPopularity, Map<String, List<Photo>> photosByTagMap) {
+        Map<String, List<Slide>> slideByTagMap = new HashMap<>();
+        for (String tag : tagListByPopularity) {
+            List<Photo> photosForThisTag = photosByTagMap.get(tag);
+            List<Photo> verticalPhotos = photosForThisTag.stream().filter(Photo::isHorizontal).collect(Collectors.toList());
+            List<Photo> horizontalPhotos = photosForThisTag.stream().filter(p -> !p.horizontal).collect(Collectors.toList());
+
+            List<Slide> slides = new ArrayList<>();
+            slideByTagMap.put(tag, slides);
+            for (int i = 0; i < verticalPhotos.size(); i += 2) {
+                if (i + 1 != verticalPhotos.size()) {
+                    Photo left = verticalPhotos.remove(i); //todo find best match
+                    Photo right = verticalPhotos.remove(i + 1);
+                    Slide slide = new Slide(left, right);
+                    slides.add(slide);
+                }
+            }
+
+            for (Photo horizontalPhoto : horizontalPhotos) {
+                Slide slide = new Slide(horizontalPhoto);
+                slides.add(slide);
+            }
+        }
+        return slideByTagMap;
     }
 
     private static void printPopularityList(List<String> tagListByPopularity) {
