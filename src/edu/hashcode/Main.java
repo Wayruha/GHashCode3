@@ -54,6 +54,9 @@ public class Main {
         Map<Photo, Map<Photo, Integer>> interestMap = prepareRelatedPhotosInterestMap(numberOfPhotos, photos);
 
         Map<String, List<Slide>> stringListMap = groupSlides(tagListByPopularity, photosByTagMap);
+
+        List<Slide> slides = GroupUtil.groupInsideTag(null, null, tagListByPopularity.get(0), stringListMap, interestMap);
+        FileUtil.writeResult(slides, FileUtil.resultFilePath);
 //        printPopularityList(tagListByPopularity);
         printPhotosByTag(tagListByPopularity, photosByTagMap);
 //        printInterestConnections(interestMap);
